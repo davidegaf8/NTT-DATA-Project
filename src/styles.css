@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body {height: 100%;}
+
+body { margin: 0;padding:0; font-family: Poppins, "Helvetica Neue", sans-serif; }
+
+:root {
+    --orange-color: #feae3f;
+    --dark-blue-color:#2c2f4d;
+    --light-blue-color: #7edae0;
+    --white-color: #f9f1e4;
+    --salmon-color: #fd6f4a;
+}
+
+body {
+    margin-top: 80px;
+}
+
+

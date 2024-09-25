@@ -1,0 +1,39 @@
+<div *ngIf="user" class="user-detail-container">
+    <h3 class="title">User Information</h3>
+    <div class="user">
+        <div class="profile-image">
+            <img src="./../../../assets/img/Male avatar.png" alt="Uploaded Image" class="uploaded-image">
+        </div>
+        <div class="user-main">
+            <h1 class="name">{{ user.name }} {{ user.surname }}</h1>
+            <p><span [ngStyle]="{'background-color': user.status === 'active' ? 'green' : 'red'}"></span>
+                {{user.status === 'active' ? 'Online' : 'Offline'}}</p>
+        </div>
+    </div>
+    <ul>
+        <li class="email" title="{{ user.email }}"><span>Email: </span>{{ user.email }}</li>
+        <li><span>Gender:</span> {{ user.gender }}</li>
+    </ul>
+    <div class="button-container">
+        <button class="back-button" mat-raised-button color="primary" (click)="goBack()">Back
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+        <h4 class="post-title" (click)="togglePosts()" title="Show posts">
+            <mat-icon *ngIf="showPosts===false">keyboard_arrow_down</mat-icon>
+            <mat-icon *ngIf="showPosts===true">keyboard_arrow_up</mat-icon>
+            <mat-icon>message</mat-icon>
+            <span *ngIf="posts.length>0">{{ posts.length }}</span>
+        </h4>
+    </div>
+    <div *ngIf="showPosts" class="posts-container">
+        <div *ngIf="posts.length > 0; else noPosts">
+            <div class="post" *ngFor="let post of posts">
+                <h4>{{ post.title }}</h4>
+                <p>{{ post.body }}</p>
+            </div>
+        </div>
+        <ng-template #noPosts>
+            <p>No posts available for this user.</p>
+        </ng-template>
+    </div>
+</div>

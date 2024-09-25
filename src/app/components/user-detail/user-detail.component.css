@@ -1,0 +1,168 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.user-detail-container {
+  font-size: 16px;
+  background-color: rgba(245, 245, 245, 0.85);
+  padding: 10px 20px;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 600px;
+  border: 2px solid var(--dark-blue-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.title {
+  color: var(--dark-blue-color);
+  text-align: center;
+  margin: 10px 0;
+}
+
+.name {
+  color: var(--dark-blue-color);
+  text-align: left;
+}
+
+.user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  gap: calc(5px + 1vw);
+}
+
+.user-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.user-main p {
+  font-size: 14px;
+  color: gray;
+}
+
+.user-main span {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+}
+
+.profile-image {
+  width: 70px;
+  height: 70px;
+  margin-right: 10px;
+  border: 1px solid var(--dark-blue-color);
+  border-radius: 50%;
+  position: relative;
+  display: inline-block;
+}
+
+.user img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 10px;
+}
+
+li {
+  margin-top: 20px;
+}
+
+li span {
+  font-weight: bold;
+  color: var(--dark-blue-color);
+}
+
+
+.back-button {
+  margin: 20px 0;
+  padding: 10px 16px;
+}
+
+.button-container {
+  display: flex;
+  width: 80%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.post-title {
+    cursor: pointer;
+    color: var(--dark-blue-color);
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+  
+.posts-container {
+    animation: fade-in 1s;
+  }
+  
+  .post {
+    margin: 20px 0;
+    font-size: 14px;
+    line-height: 1.3;
+}
+
+  .post h4 {
+    font-size: 14px;
+    color: var(--dark-blue-color);
+  }
+
+
+@media screen and (max-width: 600px) {
+    .user-detail-container {
+        padding: 1.5vw 2vw;
+    }
+
+    .name {
+        font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+   .name {
+    max-width: 200px;
+    font-size: 18px;
+   }
+   
+    .email {
+  max-width: 200px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.profile-image {
+  width: 50px;
+  height: 50px;
+}
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

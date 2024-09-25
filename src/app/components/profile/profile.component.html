@@ -1,0 +1,22 @@
+<div class="profile-container">
+    <h3 class="title">Account Information</h3>
+    <div class="user">
+        <div class="profile-image">
+            <img [src]="imageSrc" alt="Uploaded Image" class="uploaded-image">
+            <button mat-icon-button class="change-image-button" (click)="onChangeImage()">
+                <mat-icon>add_a_photo</mat-icon>
+            </button>
+            <input type="file" (change)="onFileSelected($event)" #fileInput style="display: none;">
+        </div>
+        <div class="user-main">
+            <h1 class="name">{{user.name}} {{user.surname}}</h1>
+            <p><span [ngStyle]="{'background-color': user.status === 'active' ? 'green' : 'red'}"></span>
+                {{user.status === 'active' ? 'Online' : 'Offline'}}</p>
+        </div>
+    </div>
+    <ul>
+        <li class="email" title="{{user.email}}"><span>Email: </span>{{user.email}}</li>
+        <li><span>Gender: </span>{{user.gender ? user.gender : 'N/A' }}</li>
+    </ul>
+    <button mat-raised-button color="primary" class="edit-button" (click)="openEditDialog()">Modify Information</button>
+</div>

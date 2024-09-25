@@ -1,0 +1,77 @@
+.form-container {
+    background-color: rgb(44, 47, 77, 0.9);
+    padding: 10px calc(20px + 2vw);
+    margin: 0 auto 0 auto;
+    border-radius: 10px;
+    max-width: 600px;
+    width: 100%;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-30px);
+  }
+
+  .title {
+    color: var(--white-color);
+    text-align: center;
+    font-size: calc(20px + 1vw);
+    margin-bottom: 0px;
+  }
+  
+  p {
+    color: var(--white-color);
+    text-align: center;
+    font-size: 14px;
+    margin-top: 0px;
+  }
+
+  h2 {
+    color: var(--white-color);
+    text-align: center;
+    margin: 0px 0px 20px 0px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  mat-form-field {
+    width: 300px;
+  }
+  
+  button[type="submit"] {
+    margin-bottom: 10px;
+    padding: 0 20px 0 20px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  a {
+    color: var(--orange-color);
+  }
+
+  .dont-have-account {
+    color: var(--white-color);
+    margin-top: 10px;
+  }
+  
+  @media screen and (max-width:450px) {
+   .form-container {
+    font-size: smaller;
+   }
+
+   .title {
+    font-size: 20px;
+   }
+   
+   p {
+    font-size: 12px;
+    max-width: 300px;
+   }
+  }

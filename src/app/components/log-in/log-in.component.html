@@ -1,0 +1,13 @@
+<div class="form-container">
+    <h1 class="title">Welcome back in CityImpact</h1>
+    <p>To get your access token you must first authenticate on the <a href="https://gorest.co.in">GoRest platform</a></p>
+    <h2>Log in</h2>
+    <form [formGroup]="logInForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill">
+            <mat-label>Token</mat-label>
+            <input matInput type="text" name="token" formControlName="token">
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit">Submit</button>
+    </form>
+    <p class="dont-have-account">Don't have an account? <a routerLink="/signin">Sign in</a></p>
+</div>

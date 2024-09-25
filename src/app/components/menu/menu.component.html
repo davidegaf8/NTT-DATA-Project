@@ -1,0 +1,34 @@
+<nav>
+    <ul *ngIf="!isMobile">
+        <a routerLink="/profile" [routerLinkActive]="'active'" title="Profile">
+            <li>
+                <mat-icon aria-hidden="false" aria-label="account_circle icon" fontIcon="account_circle"></mat-icon>
+                Profile
+            </li>
+        </a>
+        <a routerLink="/users" [routerLinkActive]="'active'" title="Users">
+            <li>
+                <mat-icon aria-hidden="false" aria-label="group icon" fontIcon="group"></mat-icon>
+                Users
+            </li>
+        </a>
+        <a routerLink="/blog" [routerLinkActive]="'active'" title="Blog">
+            <li>
+                <mat-icon aria-hidden="false" aria-label="mode_comment icon" fontIcon="mode_comment"></mat-icon>
+                Blog
+            </li>
+        </a>
+        <a title="Logout" (click)="onLogout()">
+            <li>
+                <mat-icon aria-hidden="false" aria-label="logout icon" fontIcon="logout"></mat-icon>
+                Logout
+            </li>
+        </a>
+    </ul>
+
+
+<div class="menu-icon" *ngIf="isMobile" (click)="onToggleMenu()">
+    <mat-icon *ngIf="!isToggled" aria-hidden="false" aria-label="menu icon" fontIcon="menu"></mat-icon>
+    <mat-icon *ngIf="isToggled" aria-hidden="false" aria-label="close icon" fontIcon="close"></mat-icon>
+</div>
+</nav>

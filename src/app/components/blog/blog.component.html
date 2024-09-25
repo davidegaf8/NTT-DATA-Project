@@ -1,0 +1,60 @@
+<mat-progress-spinner *ngIf="loading" mode="indeterminate" matSpinnerText="loading"></mat-progress-spinner>
+<div class="blog-container" *ngIf="!loading">
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Add New Post</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="new-post-form">
+        <input #postTitle placeholder="Post Title" matInput>
+        <textarea #postBody placeholder="Post Body" matInput></textarea>
+        <button mat-raised-button color="primary"
+          (click)="addPost(postTitle.value, postBody.value); postTitle.value=''; postBody.value=''">Add Post</button>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div class="search-bar">
+    <input matIconSuffix="search" placeholder="Search Posts" (input)="searchPosts($event)">
+    <mat-icon>search</mat-icon>
+  </div>
+  <div *ngFor="let post of dataSource.data" class="post">
+    <h3><span>
+        <mat-icon>person</mat-icon>
+      </span>{{ post.userName }}</h3>
+    <h5>{{ post.title }}</h5>
+    <p>{{ post.body }}</p>
+    <div class="post-actions">
+      <button mat-icon-button (click)="addLike(post)" class="likeButton">
+        <mat-icon>thumb_up</mat-icon>
+      </button>
+      <span *ngIf="post.likes > 0">{{ post.likes }}</span>
+      <button mat-icon-button (click)="toggleCommentBox(post)" class="commentButton">
+        <mat-icon>comment</mat-icon>
+      </button>
+      <span *ngIf="post.comments.length > 0">{{ post.comments.length }}</span>
+    </div>
+    <div *ngIf="post.showCommentBox" class="comment-box">
+      <textarea #commentInput placeholder="Add a comment"></textarea>
+      <button (click)="addComment(post, commentInput.value); commentInput.value=''">Submit</button>
+    </div>
+    <div class="comments" *ngIf="post.comments.length > 0">
+      <h4>Comments</h4>
+      <div *ngFor="let comment of post.comments">
+        <p>{{ comment.userName }}: {{ comment.body }}</p>
+        <button (click)="toggleReplyBox(comment)">Reply</button>
+        <div *ngIf="comment.showReplyBox" class="reply-box">
+          <textarea #replyInput placeholder="Add a reply"></textarea>
+          <button (click)="addReply(comment, replyInput.value); replyInput.value=''">Submit</button>
+        </div>
+        <div class="replies" *ngIf="comment.replies?.length">
+          <div *ngFor="let reply of comment.replies">
+            <p>{{ reply.userName }}: {{ reply.body }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</div>

@@ -1,0 +1,18 @@
+<ul>
+    <a routerLink="/profile" title="Profile" (click)="closeMenu()"><li>
+        <mat-icon aria-hidden="false" aria-label="account_circle icon" fontIcon="account_circle"></mat-icon>
+        Profile
+    </li></a>
+    <a routerLink="/users" title="Users" (click)="closeMenu()"><li>
+        <mat-icon aria-hidden="false" aria-label="group icon" fontIcon="group"></mat-icon>
+        Users
+    </li></a>
+    <a routerLink="/blog" title="Blog" (click)="closeMenu()"><li>
+        <mat-icon aria-hidden="false" aria-label="mode_comment icon" fontIcon="mode_comment"></mat-icon>
+        Blog
+    </li></a>
+    <a title ="Logout" (click)="closeMenu()" (click)="onLogout()"><li>
+        <mat-icon aria-hidden="false" aria-label="logout icon" fontIcon="logout"></mat-icon>
+        Logout
+    </li></a>
+</ul>
