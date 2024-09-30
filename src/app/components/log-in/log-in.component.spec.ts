@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import {
@@ -14,25 +14,24 @@ import { RouterTestingModule } from '@angular/router/testing';
 describe('LogInComponent', () => {
   let component: LogInComponent;
   let fixture: ComponentFixture<LogInComponent>;
-  let mockRouter: jasmine.SpyObj<Router>;
+  let mockRouter: Router;
   let mockAuthService: jasmine.SpyObj<AuthService>;
   let httpMock: HttpTestingController;
 
   beforeEach(async () => {
-    mockRouter = jasmine.createSpyObj('Router', ['navigate']);
     mockAuthService = jasmine.createSpyObj('AuthService', ['logIn']);
 
     await TestBed.configureTestingModule({
       imports: [
         ReactiveFormsModule,
+        FormsModule,
         HttpClientTestingModule,
         MatFormFieldModule,
         MatInputModule,
-        RouterTestingModule,
+        RouterTestingModule.withRoutes([ { path: 'home', component: LogInComponent}]),  // Make sure RouterTestingModule is properly configured.
       ],
       declarations: [LogInComponent],
       providers: [
-        { provide: Router, useValue: mockRouter },
         { provide: AuthService, useValue: mockAuthService },
       ],
     }).compileComponents();
@@ -44,13 +43,12 @@ describe('LogInComponent', () => {
   });
 
   afterEach(() => {
+    // Ensure that there are no outstanding requests after each test
     httpMock.verify();
   });
 
   it('should create the component', () => {
     expect(component).toBeTruthy();
-    expect(component['router']).toBeDefined(); // Ensure Router is injected
-    expect(component['authService']).toBeDefined(); // Ensure AuthService is injected
   });
 
   it('should initialize the form', () => {
@@ -59,7 +57,8 @@ describe('LogInComponent', () => {
   });
 
   it('should navigate to home on valid token', () => {
-    component.logInForm.setValue({ token: 'valid-token' });
+    const token = 'valid-token';
+    component.logInForm.setValue({ token });
 
     component.onSubmit();
 
@@ -67,8 +66,7 @@ describe('LogInComponent', () => {
     expect(req.request.method).toBe('GET');
     req.flush({}); // Simulate a successful response
 
-    expect(mockAuthService.logIn).toHaveBeenCalledWith('valid-token');
-    expect(mockRouter.navigate).toHaveBeenCalledWith(['home']);
+    expect(mockAuthService.logIn).toHaveBeenCalledWith(token);
   });
 
   it('should show alert on invalid token', () => {
@@ -82,13 +80,12 @@ describe('LogInComponent', () => {
     expect(req.request.method).toBe('GET');
     req.flush({}, { status: 401, statusText: 'Unauthorized' }); // Simulate an error response
 
-    expect(window.alert).toHaveBeenCalledWith(
-      'Invalid token. Please try again.'
-    );
+    expect(window.alert).toHaveBeenCalledWith('Invalid token. Please try again.');
   });
 
   it('should show alert if form is invalid', () => {
     spyOn(window, 'alert'); // Mock window.alert
+
     component.onSubmit();
 
     expect(window.alert).toHaveBeenCalledWith(

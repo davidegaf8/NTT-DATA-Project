@@ -9,4 +9,4 @@ export class ToggleMenuService {
     this.toggleSubject.next(this.isToggled);
     return this.toggleSubject.asObservable();
   }
-}
+}      

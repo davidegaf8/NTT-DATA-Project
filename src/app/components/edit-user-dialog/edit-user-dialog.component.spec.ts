@@ -1,8 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { EditUserDialogComponent } from './edit-user-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { EditUserDialogComponent } from './edit-user-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('EditUserDialogComponent', () => {
   let component: EditUserDialogComponent;
@@ -17,12 +22,21 @@ describe('EditUserDialogComponent', () => {
   };
 
   beforeEach(async () => {
-    // Creare uno spy per MatDialogRef con tipi generici corretti
+    // Create a spy for MatDialogRef
     const dialogSpy = jasmine.createSpyObj<MatDialogRef<EditUserDialogComponent, any>>('MatDialogRef', ['close']);
 
     await TestBed.configureTestingModule({
       declarations: [EditUserDialogComponent],
-      imports: [ReactiveFormsModule, FormsModule, NoopAnimationsModule],
+      imports: [
+        ReactiveFormsModule,
+        FormsModule,
+        MatFormFieldModule,  
+        MatInputModule,      
+        MatButtonModule,     
+        NoopAnimationsModule,
+        MatSelectModule,
+        MatDialogModule
+      ],
       providers: [
         { provide: MatDialogRef, useValue: dialogSpy },
         { provide: MAT_DIALOG_DATA, useValue: mockDialogData }

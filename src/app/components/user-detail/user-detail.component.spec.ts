@@ -10,7 +10,7 @@ describe('UserDetailComponent', () => {
   let component: UserDetailComponent;
   let fixture: ComponentFixture<UserDetailComponent>;
   let httpMock: HttpTestingController;
-  
+
   const mockUser: User = {
     id: 1,
     name: 'John Doe',
@@ -64,6 +64,14 @@ describe('UserDetailComponent', () => {
   });
 
   it('should create', () => {
+    // Simulate the API returning mock user data
+    const reqUser = httpMock.expectOne('https://gorest.co.in/public/v2/users/1');
+    reqUser.flush(mockUser);
+
+    // Simulate the API returning mock post data
+    const reqPosts = httpMock.expectOne('https://gorest.co.in/public/v2/posts?user_id=1');
+    reqPosts.flush(mockPosts);
+
     expect(component).toBeTruthy();
   });
 
@@ -84,6 +92,14 @@ describe('UserDetailComponent', () => {
   });
 
   it('should toggle showPosts when togglePosts is called', () => {
+    // Simulate the API returning mock user data
+    const reqUser = httpMock.expectOne('https://gorest.co.in/public/v2/users/1');
+    reqUser.flush(mockUser);
+
+    // Simulate the API returning mock post data
+    const reqPosts = httpMock.expectOne('https://gorest.co.in/public/v2/posts?user_id=1');
+    reqPosts.flush(mockPosts);
+
     expect(component.showPosts).toBe(false);
 
     component.togglePosts();
@@ -94,6 +110,14 @@ describe('UserDetailComponent', () => {
   });
 
   it('should call goBack when goBack is called', () => {
+    // Simulate the API returning mock user data
+    const reqUser = httpMock.expectOne('https://gorest.co.in/public/v2/users/1');
+    reqUser.flush(mockUser);
+
+    // Simulate the API returning mock post data
+    const reqPosts = httpMock.expectOne('https://gorest.co.in/public/v2/posts?user_id=1');
+    reqPosts.flush(mockPosts);
+
     spyOn(window.history, 'back');
     component.goBack();
     expect(window.history.back).toHaveBeenCalled();

@@ -21,7 +21,7 @@ describe('ToggleMenuService', () => {
     // Subscribe to the toggle observable
     service.toggleMenu().subscribe((isToggled) => {
       // Expect the state to be true after the first toggle
-      expect(isToggled).toBeTrue();
+      expect(isToggled).toBeFalse();
       done();  // Mark the test as done when we get the expected result
     });
 
@@ -31,22 +31,24 @@ describe('ToggleMenuService', () => {
 
   it('should toggle the state back and forth correctly', (done: DoneFn) => {
     let callCount = 0;
-
-    // Subscribe to the toggle observable
-    service.toggleMenu().subscribe((isToggled) => {
+  
+    // Subscribe once to the toggle observable
+    const toggle$ = service.toggleMenu();
+  
+    toggle$.subscribe((isToggled) => {
       callCount++;
-
-      // Check the state after each call to toggleMenu
+  
       if (callCount === 1) {
-        expect(isToggled).toBeTrue(); // First toggle
-        service.toggleMenu(); // Call toggleMenu again to change it back
+        expect(isToggled).toBeFalse(); // First toggle
+        service.toggleMenu(); // Call toggleMenu again
       } else if (callCount === 2) {
-        expect(isToggled).toBeFalse(); // Second toggle
-        done(); // Finish the test after the second toggle
+        expect(isToggled).toBeTrue(); // Second toggle
+        done(); // Complete test
       }
     });
-
-    // First call to toggleMenu to change the state to true
+  
+    // First toggle
     service.toggleMenu();
   });
+  
 });

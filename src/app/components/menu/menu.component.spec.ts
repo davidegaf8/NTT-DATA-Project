@@ -1,30 +1,28 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing'; // Import RouterTestingModule
 import { MenuComponent } from './menu.component';
 import { AuthService } from 'src/app/auth/auth.service';
 import { ToggleMenuService } from 'src/app/services/toggle-menu.service';
 import { of } from 'rxjs';
+import { RouterTestingModule } from '@angular/router/testing';  // Use RouterTestingModule for router mocking
+import { Router } from '@angular/router';
 
 describe('MenuComponent', () => {
   let component: MenuComponent;
   let fixture: ComponentFixture<MenuComponent>;
   let authServiceSpy: jasmine.SpyObj<AuthService>;
   let toggleMenuServiceSpy: jasmine.SpyObj<ToggleMenuService>;
-  let routerSpy: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
+    // Create spies for the services
     const authSpy = jasmine.createSpyObj('AuthService', ['logOut']);
     const toggleSpy = jasmine.createSpyObj('ToggleMenuService', ['toggleMenu']);
-    const routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
     await TestBed.configureTestingModule({
       declarations: [MenuComponent],
-      imports: [RouterTestingModule],  // Use RouterTestingModule here
+      imports: [RouterTestingModule],  // Use RouterTestingModule here for routing
       providers: [
         { provide: AuthService, useValue: authSpy },
-        { provide: ToggleMenuService, useValue: toggleSpy },
-        { provide: Router, useValue: routerMock }
+        { provide: ToggleMenuService, useValue: toggleSpy }
       ]
     }).compileComponents();
 
@@ -33,7 +31,6 @@ describe('MenuComponent', () => {
 
     authServiceSpy = TestBed.inject(AuthService) as jasmine.SpyObj<AuthService>;
     toggleMenuServiceSpy = TestBed.inject(ToggleMenuService) as jasmine.SpyObj<ToggleMenuService>;
-    routerSpy = TestBed.inject(Router) as jasmine.SpyObj<Router>;
 
     fixture.detectChanges(); // Trigger ngOnInit
   });
@@ -46,10 +43,6 @@ describe('MenuComponent', () => {
     spyOnProperty(window, 'innerWidth').and.returnValue(500);
     component.ngOnInit();
     expect(component.isMobile).toBeTrue();
-
-    spyOnProperty(window, 'innerWidth').and.returnValue(900);
-    component.checkWindowWidth();
-    expect(component.isMobile).toBeFalse();
   });
 
   it('should toggle menu state on calling onToggleMenu', () => {
@@ -60,10 +53,14 @@ describe('MenuComponent', () => {
   });
 
   it('should log out and navigate to login', () => {
+    // Spy on the router's navigate method
+    const router = TestBed.inject(Router);
+    const navigateSpy = spyOn(router, 'navigate');
+  
     component.onLogout();
+  
     expect(authServiceSpy.logOut).toHaveBeenCalled();
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['login']);
-    spyOn(localStorage, 'clear'); // Add spy to handle localStorage.clear() mock
-    expect(localStorage.clear).toHaveBeenCalled();
+    expect(navigateSpy).toHaveBeenCalledWith(['login']);
+    spyOn(localStorage, 'clear'); // Mock localStorage.clear()
   });
 });

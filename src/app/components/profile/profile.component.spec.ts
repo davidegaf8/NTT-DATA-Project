@@ -16,7 +16,12 @@ describe('ProfileComponent', () => {
           provide: MatDialog,
           useValue: {
             open: () => ({
-              afterClosed: () => of({ name: 'New Name', surname: 'New Surname', email: 'new@user.com', gender: 'Female' }),
+              afterClosed: () => of({
+                name: 'New Name',
+                surname: 'New Surname',
+                email: 'new@user.com',
+                gender: 'Female'
+              }),
             }),
           },
         },
@@ -64,15 +69,26 @@ describe('ProfileComponent', () => {
 
   it('should handle file selection and update image', () => {
     const file = new Blob([''], { type: 'image/png' });
-    const fileInput = new FileReader();
-
-    spyOn(fileInput, 'readAsDataURL').and.callFake((file) => {
-      component.imageSrc = URL.createObjectURL(file);
-    });
-
     const event = { target: { files: [file] } };
+
+    // Mock FileReader
+    const fileReaderMock = {
+      readAsDataURL: jasmine.createSpy('readAsDataURL'),
+      onload: null as any,
+      result: 'blob:fake-url'
+    };
+
+    // Spy on FileReader
+    spyOn(window as any, 'FileReader').and.returnValue(fileReaderMock);
+
+    // Trigger the file selection
     component.onFileSelected(event);
-    expect(component.imageSrc).toContain('blob:');
+
+    // Simulate the FileReader onload event to update the imageSrc
+    fileReaderMock.onload({} as any);
+
+    // Check if the imageSrc was updated to the mocked blob URL
+    expect(component.imageSrc).toBe('blob:fake-url');
   });
 
   it('should open edit dialog and update user data', () => {

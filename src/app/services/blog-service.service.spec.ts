@@ -24,7 +24,12 @@ describe('BlogService', () => {
     { id: 2, postId: 1, body: 'Comment 2', user_id: 1, userName: '', replies: [] },
   ];
 
+  const authToken = 'mock-token';
+
   beforeEach(() => {
+    // Spy on localStorage.getItem before the service is created
+    spyOn(localStorage, 'getItem').and.returnValue(authToken);
+
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [BlogService],
@@ -78,35 +83,31 @@ describe('BlogService', () => {
     req.flush(mockComments); // Send mockComments as the response
   });
 
- // Test case for createPost method
-it('should create a new post (createPost)', () => {
-  const newPost: Post = {
-    id: 3,
-    user_id: 1,
-    title: 'New Post',
-    body: 'New Body',
-    userName: '',
-    likes: 0,
-    comments: [],
-    showCommentBox: false
-  };
-  const authToken = 'mock-token';
+  // Test case for createPost method
+  it('should create a new post (createPost)', () => {
+    const newPost: Post = {
+      id: 3,
+      user_id: 1,
+      title: 'New Post',
+      body: 'New Body',
+      userName: '',
+      likes: 0,
+      comments: [],
+      showCommentBox: false
+    };
 
-  // Spy on localStorage.getItem and make it return the mock token
-  spyOn(localStorage, 'getItem').and.returnValue(authToken);
+    service.createPost(newPost).subscribe((post) => {
+      expect(post).toEqual(newPost);
+    });
 
-  service.createPost(newPost).subscribe((post) => {
-    expect(post).toEqual(newPost);
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${authToken}`,
+      'Content-Type': 'application/json',
+    });
+
+    const req = httpMock.expectOne(`${service['baseUrl']}/posts`);
+    expect(req.request.method).toBe('POST');
+    expect(req.request.headers.get('Authorization')).toBe(`Bearer ${authToken}`);
+    req.flush(newPost); // Send the new post as the response
   });
-
-  const headers = new HttpHeaders({
-    Authorization: `Bearer ${authToken}`,
-    'Content-Type': 'application/json',
-  });
-
-  const req = httpMock.expectOne(`${service['baseUrl']}/posts`);
-  expect(req.request.method).toBe('POST');
-  expect(req.request.headers.get('Authorization')).toBe(`Bearer ${authToken}`);
-  req.flush(newPost); // Send the new post as the response
-});
 });
